@@ -1,0 +1,31 @@
+import pyecharts.options as opts
+from pyecharts.charts import Line
+
+x_data = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]#x轴
+y_data = [820, 932, 901, 934, 1290, 1330, 1320]#y轴
+
+(
+    Line({'width':'1800px','height':'700px'}) #option全局设置
+    .add_xaxis(xaxis_data=x_data)#共用x轴
+    .add_yaxis(
+        series_name="邮件营销",
+        stack="总量",
+        y_axis=[120, 132, 101, 134, 90, 230, 210],
+        label_opts=opts.LabelOpts(is_show=False))
+    .add_yaxis(
+        series_name="联盟广告",
+        stack="总量",
+        y_axis=[220, 182, 191, 234, 290, 330, 310],
+        label_opts=opts.LabelOpts(is_show=False))
+    .set_global_opts(
+        title_opts=opts.TitleOpts(title="折线图堆叠"),#title：主标题
+        tooltip_opts=opts.TooltipOpts(trigger="axis"),
+        yaxis_opts=opts.AxisOpts(
+            type_="value",
+            axistick_opts=opts.AxisTickOpts(is_show=True),
+            splitline_opts=opts.SplitLineOpts(is_show=True),
+        ),
+        xaxis_opts=opts.AxisOpts(type_="category", boundary_gap=False),
+    )
+    .render("stacked_line_chart.html")
+)
