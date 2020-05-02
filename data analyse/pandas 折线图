@@ -1,0 +1,26 @@
+import csv
+import re
+import pandas as pd
+import numpy as np
+#勉强数据可视化
+csv_reader1=csv.reader(open('1.csv',encoding='utf-8'))#读取csv文件
+num1 = []
+count1 = 0
+for row in csv_reader1:#遍历csv每一行数据
+    like = re.search('\d+',row[4]).group(0)
+    num1.append(int(like))#写进列表里没有引号
+    count1 +=1
+    
+csv_reader2=csv.reader(open('2.csv',encoding='utf-8'))#读取csv文件
+num2 = []
+count2 = 0
+for row in csv_reader2:#遍历csv每一行数据
+    like = re.search('\d+',row[4]).group(0)
+    num2.append(int(like))#写进列表里没有引号
+    count2 +=1
+    
+data1 = pd.Series(num1, index=np.arange(0,count1,1)) #三元组，始，止，间距
+data2 = pd.Series(num2, index=np.arange(0,count2,1))
+
+data1.plot(color = 'r')#两项数据对比
+data2.plot(color='b')
