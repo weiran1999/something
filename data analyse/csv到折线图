@@ -1,0 +1,24 @@
+import pyecharts.options as opts
+from pyecharts.charts import Line#标准折线图
+import csv ,re
+
+def draw(csv_name):
+    csv_reader=csv.reader(open(csv_name,encoding='utf-8'))#读取csv文件
+    num = []
+    count = 0
+    for row in csv_reader:#遍历csv每一行数据
+        content = re.search('\d+',row[5]).group(0)#3是评论，4是赞，5是浏览
+        num.append(int(content))#写进列表里没有引号
+        count +=1
+    return count,num
+count1 ,num1= draw('1.csv') 
+count2 ,num2= draw('2.csv') 
+
+count = list(range(1,count2+1))#创建数组
+line = Line({'width':'18000px','height':'500px'})
+line.add_xaxis(count)
+line.add_yaxis("ta的", num1)
+line.add_yaxis("我的", num2)
+line.set_global_opts(title_opts=opts.TitleOpts(title="主标题"))
+
+line.render()
