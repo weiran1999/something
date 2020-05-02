@@ -1,0 +1,11 @@
+import pyecharts.options as opts
+from pyecharts.charts import Line
+
+line = Line({'width':'1800px','height':'500px'})
+line.add_xaxis(["衬衫", "羊毛衫", "雪纺衫", "裤子"])
+line.add_yaxis("商家A", [123,224,135,143])
+line.add_yaxis("商家B", [125,156,127,131])
+line.set_global_opts(title_opts=opts.TitleOpts(title="主标题"))
+line.set_global_opts({'weith':'1500px','height':'600px'})
+line.render()
+
