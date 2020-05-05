@@ -1,0 +1,37 @@
+import pyecharts.options as opts
+from pyecharts.charts import Line#标准折线图
+import csv ,re
+
+def draw(csv_name,year):
+    num = []
+    for i in range(1,10):
+        count = 0
+        pattern ='{0}-0{1}-\d\d'.format(year,i)
+        csv_reader=csv.reader(open(csv_name,encoding='utf-8'))#读取csv文件,指针位置会放到最后，所以写在的循环位置很关键
+        for row in csv_reader:#遍历csv每一行数据
+            if re.search(pattern,row[1])!= None :
+                count = re.search("\d+",row[4]).group(0)
+        num.append(count)
+        
+    for i in range(10,13):
+        count = 0
+        pattern = '{0}-{1}-\d\d'.format(year,i)
+        csv_reader=csv.reader(open(csv_name,encoding='utf-8'))
+        for row in csv_reader:#遍历csv每一行数据
+            if re.search(pattern,row[1])!= None :
+                count = re.search("\d+",row[4]).group(0)
+        num.append(count)
+        
+    return num
+
+
+def line(num,year):#封装
+    data = []
+    for i in range(1,13):
+        data.append('第{0}月'.format(i))
+    line = Line({'width':'1800px','height':'500px'}) 
+    line.add_xaxis(data)
+    line.add_yaxis("{0}点赞".format(year), num)
+    line.render()
+
+line(draw('1.csv',2018),2018)
