@@ -26,22 +26,20 @@ def draw(csv_name,year):
         
     return num
 
-num1 = draw('1.csv',2017)#年份
-num2 = draw('1.csv',2018)
+num1 = draw('1.csv',2018)#年份
+num2 = draw('1.csv',2019)#年份
 
 data1 = []
 for i in range(1,13):
     data1.append('第{0}月'.format(i))
 
-
 ( #init_opts=opts.InitOpts(theme=ThemeType.DARK) #主题颜色
     Line(init_opts=opts.InitOpts(width="1600px", height="800px")) 
     .add_xaxis(
-        xaxis_data=data1,
-        
+        xaxis_data=data1,     
     )
     .add_yaxis(
-        series_name="2018说说",
+        series_name="2018说说", #要改的名字
         is_smooth=True,
         symbol="emptyCircle",
         is_symbol_show=True,
@@ -52,7 +50,7 @@ for i in range(1,13):
         linestyle_opts=opts.LineStyleOpts(width=2),
     )
     .add_yaxis(
-        series_name="2019说说",
+        series_name="2019说说", #要改的名字
         is_smooth=True,
         symbol="emptyCircle",
         is_symbol_show=True,
@@ -69,7 +67,6 @@ for i in range(1,13):
             axistick_opts=opts.AxisTickOpts(is_align_with_label=True),
             axisline_opts=opts.AxisLineOpts(
                 is_on_zero=True, linestyle_opts=opts.LineStyleOpts(color="#d14a61")
-            
             ),
         ),
         yaxis_opts=opts.AxisOpts(
@@ -81,4 +78,3 @@ for i in range(1,13):
     )
     .render("说说时间.html")
 )
-
