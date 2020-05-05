@@ -1,0 +1,104 @@
+import pyecharts.options as opts
+from pyecharts.charts import Line
+from pyecharts.commons.utils import JsCode
+#from pyecharts.globals import ThemeType
+import csv ,re
+
+def draw(csv_name,year):
+    num = []
+    for i in range(1,10):
+        count = 0
+        pattern ='{0}-0{1}-\d\d'.format(year,i)
+        csv_reader=csv.reader(open(csv_name,encoding='utf-8'))#读取csv文件,指针位置会放到最后，所以写在的循环位置很关键
+        for row in csv_reader:#遍历csv每一行数据
+            if re.search(pattern,row[1])!= None :
+                count +=1
+        num.append(count)
+        
+    for i in range(10,13):
+        count = 0
+        pattern = '{0}-{1}-\d\d'.format(year,i)
+        csv_reader=csv.reader(open(csv_name,encoding='utf-8'))
+        for row in csv_reader:#遍历csv每一行数据
+            if re.search(pattern,row[1])!= None :
+                count +=1
+        num.append(count)
+        
+    return num
+
+num1 = draw('1.csv',2018)#年份
+num2 = draw('1.csv',2019)
+
+data1 = []
+data2 = []
+for i in range(1,13):
+    data1.append('2018-{0}'.format(i))
+    data2.append('2019-{0}'.format(i))
+
+js_formatter = """function (params) {
+        console.log(params);
+        return params.value + (params.seriesData.length ? '：' + params.seriesData[0].data : '');
+    }"""
+
+
+( #init_opts=opts.InitOpts(theme=ThemeType.DARK) #主题颜色
+    Line(init_opts=opts.InitOpts(width="1600px", height="800px")) 
+    .add_xaxis(
+        xaxis_data=data1,
+        
+    )
+    .extend_axis(
+        xaxis_data= data2 ,
+        xaxis=opts.AxisOpts(
+            type_="category",
+            axistick_opts=opts.AxisTickOpts(is_align_with_label=True),
+            axisline_opts=opts.AxisLineOpts(
+                is_on_zero=True, linestyle_opts=opts.LineStyleOpts(color="#6e9ef1")
+            ),
+            axispointer_opts=opts.AxisPointerOpts(
+                is_show=True, label=opts.LabelOpts(formatter=JsCode(js_formatter))
+            ),
+        ),
+    )
+    .add_yaxis(
+        series_name="2018说说",
+        is_smooth=True,
+        symbol="emptyCircle",
+        is_symbol_show=True,
+        # xaxis_index=1,
+        color="#6e9ef1",#red
+        y_axis= num1 ,
+        label_opts=opts.LabelOpts(is_show=True),
+        linestyle_opts=opts.LineStyleOpts(width=2),
+    )
+    .add_yaxis(
+        series_name="2019说说",
+        is_smooth=True,
+        symbol="emptyCircle",
+        is_symbol_show=True,
+        color="#d14a61",#blue
+        y_axis= num2 ,
+        label_opts=opts.LabelOpts(is_show=True),
+        linestyle_opts=opts.LineStyleOpts(width=2),
+    )
+    .set_global_opts(
+        legend_opts=opts.LegendOpts(),
+        tooltip_opts=opts.TooltipOpts(trigger="none", axis_pointer_type="cross"),
+        xaxis_opts=opts.AxisOpts(
+            type_="category",
+            axistick_opts=opts.AxisTickOpts(is_align_with_label=True),
+            axisline_opts=opts.AxisLineOpts(
+                is_on_zero=True, linestyle_opts=opts.LineStyleOpts(color="#d14a61")
+            
+            ),
+        ),
+        yaxis_opts=opts.AxisOpts(
+            type_="value",
+            splitline_opts=opts.SplitLineOpts(
+                is_show=True, linestyle_opts=opts.LineStyleOpts(opacity=1)
+            ),
+        ),
+    )
+    .render("说说时间.html")
+)
+
