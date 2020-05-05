@@ -1,7 +1,7 @@
 import pyecharts.options as opts
 from pyecharts.charts import Line
 from pyecharts.commons.utils import JsCode
-#from pyecharts.globals import ThemeType
+from pyecharts.globals import ThemeType
 import csv ,re
 
 def draw(csv_name,year):
@@ -25,18 +25,83 @@ def draw(csv_name,year):
         num.append(count)
         
     return num
+num1 = draw('1.csv',2012)#年份
+num2 = draw('1.csv',2013)#年份
+num3 = draw('1.csv',2014)#年份
+num4 = draw('1.csv',2015)#年份
+num5 = draw('1.csv',2016)#年份
+num6 = draw('1.csv',2017)#年份
+num7 = draw('1.csv',2018)#年份
+num8 = draw('1.csv',2019)#年份
 
-num1 = draw('1.csv',2018)#年份
-num2 = draw('1.csv',2019)#年份
 
 data1 = []
 for i in range(1,13):
     data1.append('第{0}月'.format(i))
 
 ( #init_opts=opts.InitOpts(theme=ThemeType.DARK) #主题颜色
-    Line(init_opts=opts.InitOpts(width="1600px", height="800px")) 
+    Line(init_opts=opts.InitOpts(width="1600px", height="800px",theme=ThemeType.LIGHT)) 
     .add_xaxis(
         xaxis_data=data1,     
+    )
+    .add_yaxis(
+        series_name="2012说说", #要改的名字
+        is_smooth=True,
+        symbol="emptyCircle",
+        is_symbol_show=True,
+        # xaxis_index=1,
+        y_axis= num1,#参数传递
+        label_opts=opts.LabelOpts(is_show=True),
+        linestyle_opts=opts.LineStyleOpts(width=2),
+    )
+    .add_yaxis(
+        series_name="2013说说", #要改的名字
+        is_smooth=True,
+        symbol="emptyCircle",
+        is_symbol_show=True,
+        # xaxis_index=1,
+        y_axis= num2 ,#参数传递
+        label_opts=opts.LabelOpts(is_show=True),
+        linestyle_opts=opts.LineStyleOpts(width=2),
+    )
+    .add_yaxis(
+        series_name="2014说说", #要改的名字
+        is_smooth=True,
+        symbol="emptyCircle",
+        is_symbol_show=True,
+        # xaxis_index=1,
+        y_axis= num3 ,#参数传递
+        label_opts=opts.LabelOpts(is_show=True),
+        linestyle_opts=opts.LineStyleOpts(width=2),
+    )
+    .add_yaxis(
+        series_name="2015说说", #要改的名字
+        is_smooth=True,
+        symbol="emptyCircle",
+        is_symbol_show=True,
+        # xaxis_index=1,
+        y_axis= num4 ,#参数传递
+        label_opts=opts.LabelOpts(is_show=True),
+        linestyle_opts=opts.LineStyleOpts(width=2),
+    )
+    .add_yaxis(
+        series_name="2016说说", #要改的名字
+        is_smooth=True,
+        symbol="emptyCircle",
+        is_symbol_show=True,
+        # xaxis_index=1,
+        y_axis= num5 ,#参数传递
+        label_opts=opts.LabelOpts(is_show=True),
+        linestyle_opts=opts.LineStyleOpts(width=2),
+    )
+    .add_yaxis(
+        series_name="2017说说", #要改的名字
+        is_smooth=True,
+        symbol="emptyCircle",
+        is_symbol_show=True,
+        y_axis= num6 ,#参数传递
+        label_opts=opts.LabelOpts(is_show=True),
+        linestyle_opts=opts.LineStyleOpts(width=2),
     )
     .add_yaxis(
         series_name="2018说说", #要改的名字
@@ -44,8 +109,7 @@ for i in range(1,13):
         symbol="emptyCircle",
         is_symbol_show=True,
         # xaxis_index=1,
-        color="#6e9ef1",#red
-        y_axis= num1 ,
+        y_axis= num7 ,#参数传递
         label_opts=opts.LabelOpts(is_show=True),
         linestyle_opts=opts.LineStyleOpts(width=2),
     )
@@ -54,8 +118,8 @@ for i in range(1,13):
         is_smooth=True,
         symbol="emptyCircle",
         is_symbol_show=True,
-        color="#d14a61",#blue
-        y_axis= num2 ,
+        # xaxis_index=1,
+        y_axis= num8 ,#参数传递
         label_opts=opts.LabelOpts(is_show=True),
         linestyle_opts=opts.LineStyleOpts(width=2),
     )
