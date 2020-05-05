@@ -35,9 +35,9 @@ num7 = draw('1.csv',2018)#年份
 num8 = draw('1.csv',2019)#年份
 
 
-data1 = []
+data = []
 for i in range(1,13):
-    data1.append('第{0}月'.format(i))
+    data.append('第{0}月'.format(i))
 
 ( #init_opts=opts.InitOpts(theme=ThemeType.DARK) #主题颜色
     Line(init_opts=opts.InitOpts(width="1600px", height="800px",theme=ThemeType.LIGHT)) 
