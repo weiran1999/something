@@ -1,0 +1,33 @@
+# 将图换为字符串组成图
+from PIL import Image
+
+codeLib = '''@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^`'.'''#生成字符画所需的字符集
+count = len(codeLib)
+
+def transform1(image_file):
+    image_file = image_file.convert("L")#转换为黑白图片，参数"L"表示黑白模式
+    codePic = ''
+    for h in range(0,image_file.size[1]):  #size属性表示图片的分辨率，'0'为横向大小，'1'为纵向
+        for w in range(0,image_file.size[0]):
+            gray = image_file.getpixel((w,h)) #返回指定位置的像素，如果所打开的图像是多层次的图片，那这个方法就返回一个元组
+            codePic = codePic + codeLib[int(((count-1)*gray)/256)]#建立灰度与字符集的映射
+        codePic = codePic+'\r\n'
+    return codePic
+
+def transform2(image_file):#第二种转换的方法
+    codePic = ''
+    for h in range(0,image_file.size[1]):#获取图片的RGB值，利用公式： 
+        for w in range(0,image_file.size[0]): #Gray = R*0.299 + G*0.587 + B*0.114 
+            g,r,b = image_file.getpixel((w,h))   #计算可得每个像素点的灰度值，之后再建立映射即可。
+            gray = int(r* 0.299+g* 0.587+b* 0.114)
+            codePic = codePic + codeLib[int(((count-1)*gray)/256)]
+        codePic = codePic+'\r\n'
+    return codePic
+
+with open('图.jpg','rb') as f:
+    image_file = Image.open(f)
+    image_file = image_file.resize((int(image_file.size[0]*0.2),int(image_file.size[1]*0.1)))#调整图片大小
+    print('横向大小:{0} 纵向大小:{1}'.format(image_file.size[0], image_file.size[1]))
+
+with open('txt.txt','w') as f:
+    f.write(transform1(image_file))
