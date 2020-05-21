@@ -1,0 +1,21 @@
+from wordcloud import WordCloud
+import jieba
+import numpy
+import PIL.Image as Image
+#1.将字符串切分
+def chinese_jieba(text):
+    wordlist_jieba=jieba.cut(text)
+    space_wordlist=" ".join(wordlist_jieba)
+    return space_wordlist
+with open("text.txt" ,encoding="utf-8")as file:
+    text=file.read()
+    text=chinese_jieba(text)
+    #2.图片遮罩层
+    mask_pic=numpy.array(Image.open("1.png"))
+    #3.将参数mask设值为：mask_pic
+    wordcloud = WordCloud(font_path="/System/Library/fonts/PingFang.ttc",mask=mask_pic,
+                          max_font_size =100,background_color="black",
+                         prefer_horizontal = 9).generate(text)
+    image=wordcloud.to_image()
+    image.show()
+
