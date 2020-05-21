@@ -11,11 +11,11 @@ with open("text.txt" ,encoding="utf-8")as file:
     text=file.read()
     text=chinese_jieba(text)
     #2.图片遮罩层
-    mask_pic=numpy.array(Image.open("1.png"))
+    mask_pic=numpy.array(Image.open("1.jpg"))
     #3.将参数mask设值为：mask_pic
     wordcloud = WordCloud(font_path="/System/Library/fonts/PingFang.ttc",mask=mask_pic,
-                          max_font_size =100,background_color="black",
-                         prefer_horizontal = 9).generate(text)
+                          max_font_size =100,background_color="white",#最大字尺寸，背景颜色
+                         prefer_horizontal = 0.8).generate(text)#水平和垂直字之比
     image=wordcloud.to_image()
     image.show()
 
