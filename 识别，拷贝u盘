@@ -1,0 +1,21 @@
+import os
+import time
+from datetime import datetime
+import shutil
+
+# U盘的盘符
+# 根据你自己电脑的具体盘符
+uDiskPath = r'/Volumes/VAST'
+#uDiskPath += ":/"
+
+# 要复制到的路径
+# 为了方便起见，程序默认将文件拷贝到程序所在目录
+saveToPath = r'/Users/shanshan/Downloads' 
+
+#开启一个死循环，每10秒检测一次，直到检测有U盘插入。
+while (True):
+    if os.path.exists(uDiskPath):
+        shutil.copytree(uDiskPath, os.path.join(saveToPath, datetime.now().strftime("%Y-%m-%d_%H%M%S")))
+        break
+    else:
+        time.sleep(10)
