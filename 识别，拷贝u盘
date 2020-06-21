@@ -10,7 +10,7 @@ uDiskPath = r'/Volumes/VAST'
 
 # 要复制到的路径
 # 为了方便起见，程序默认将文件拷贝到程序所在目录
-saveToPath = r'/Users/shanshan/Downloads' 
+saveToPath = r'' 
 
 #开启一个死循环，每10秒检测一次，直到检测有U盘插入。
 while (True):
