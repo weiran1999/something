@@ -42,7 +42,7 @@ jobs:
           run: python sign_in.py
 
         - name: 'Send mail'
-          uses: weiran
+          uses: 打卡
           with:
             server_address: smtp.163.com
             server_port: 465
