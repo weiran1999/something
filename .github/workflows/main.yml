@@ -50,7 +50,7 @@ jobs:
             username: ${{ secrets.MAIL_USERNAME }}
             password: ${{ secrets.MAIL_PASSWORD }}
             subject: 青拧疫服打卡 (${{env.REPORT_DATE}})
-            body: file://email.txt
+            body: "打卡成功！"
             to: 907221539@qq.com
             from: GitHub Actions
             content_type: text/html
