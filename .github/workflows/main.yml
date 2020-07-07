@@ -39,8 +39,7 @@ jobs:
             XUEHAO: ${{ secrets.XUEHAO}}
             XINGMING: ${{ secrets.XINGMING }}
             MIMA: ${{ secrets.MIMA }}
-          run: |
-            python sign.py
+          run: python sign.py
 
         - name: 'Send mail'
           uses: dawidd6/action-send-mail@master
