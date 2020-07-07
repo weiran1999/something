@@ -34,7 +34,7 @@ jobs:
               && chromedriver --version
         - name: 'Get Date'
           run: echo "::set-env name=REPORT_DATE::$(TZ=':Asia/Shenzhen' date '+%Y-%m-%d %T')"
-        - name: 'Sign_in'
+        - name: '打卡'
           env:
             XUEHAO: ${{ secrets.XUEHAO}}
             XINGMING: ${{ secrets.XINGMING }}
