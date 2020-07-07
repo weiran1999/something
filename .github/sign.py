@@ -15,6 +15,5 @@ def sign_in():
     print("打卡成功")
     browser.find_element_by_xpath('/html/body/div[1]/div/div[3]/ul/li[1]/p').click()
 
-if __name__ == '__main__':
-    sign_in()
+sign_in()
 
