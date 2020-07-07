@@ -17,7 +17,7 @@ jobs:
           uses: actions/setup-python@v1
           with:
             python-version: '3.7'
-        - name: 'Install requirements'
+        - name: 'Install selenium'
           run: |
             python -m pip install --upgrade pip
             pip install selenium
@@ -39,7 +39,8 @@ jobs:
             XUEHAO: ${{ secrets.XUEHAO}}
             XINGMING: ${{ secrets.XINGMING }}
             MIMA: ${{ secrets.MIMA }}
-          run: python sign.py
+          run: |
+            python sign.py
 
         - name: 'Send mail'
           uses: dawidd6/action-send-mail@master
