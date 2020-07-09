@@ -19,6 +19,7 @@ def sign_in():
         browser.find_element_by_xpath('/html/body/div[4]/div[3]').click()
     except:
         pass
+    time.sleep(5)
     browser.find_element_by_xpath('/html/body/div[1]/div/div[3]/ul/li[1]').click()
     time.sleep(15)#必要的等待加载
     browser.find_element_by_xpath('//*[@id="app"]/div/div[3]/button').click()
