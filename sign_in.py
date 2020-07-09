@@ -15,10 +15,10 @@ def sign_in():
     browser.find_element_by_css_selector('input[type][placeholder="请输入姓名"].van-field__control').send_keys("XINGMING")
     browser.find_element_by_css_selector('input[type][placeholder="请输入密码(初始密码为学号)"].van-field__control').send_keys("MIMA")
     browser.find_element_by_xpath('//*[@id="app"]/div/div[2]/button').click()
-    time.sleep(5)
+    time.sleep(50)
     browser.find_element_by_xpath('/html/body/div[4]/div[3]').click()
     browser.find_element_by_css_selector("#app>div>div:nth-child(3)>ul >li:nth-child(1)").click()
-    time.sleep(15)#必要的等待加载
+    time.sleep(50)#必要的等待加载
     browser.find_element_by_xpath('//*[@id="app"]/div/div[3]/button').click()
     browser.find_element_by_xpath('//*[@id="app"]/div/div[3]/div[1]/p/span[1]/label').click()
     browser.find_element_by_xpath('//*[@id="app"]/div/div[3]/div[2]/p/span[1]/label').click()
