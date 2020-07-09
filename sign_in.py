@@ -8,7 +8,6 @@ def sign_in():
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--headless')
     browser = webdriver.Chrome(chrome_options=chrome_options)
-    browser = webdriver.Chrome()
     browser.implicitly_wait(10) # 隐性等待，最长等10秒
     url = r"https://wxyqfk.zhxy.net/?yxdm=10623#/login"  
     browser.get(url)
