@@ -1,0 +1,121 @@
+import re
+import requests
+from pyecharts import options as opts
+from pyecharts.charts import Map
+
+def get_area(id_):
+    cardno = id_
+    # 调用本地函数实现
+    r = get_idcard_info(cardno)
+    return r
+
+def get_idcard_info(cardno):
+    ret = {"err": 1, "area": "", "birthday": "", "sex": ""}
+    # 初级校验
+    cardno = cardno.upper()
+    if re.fullmatch("[1-6]\\d{16}[\\d|X]", cardno) == None:
+        return None
+    # 利用身份证号最末尾的校验码进一步校验
+    code = (7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2)
+    i, s = 0, 0
+    while i < 17:
+        s += int(cardno[i]) * code[i]
+        i += 1  
+    s = (12 - (s % 11)) % 11
+    if s == 10:
+        s = "X"
+    else:
+        s = str(s)
+    if s != cardno[17]:
+        return ret
+    
+    # 提取身份证号中的信息
+    area_code = cardno[:6]
+    with open("idcard_addr_code.txt", "r", encoding="utf-8") as f:
+        while True:
+            line = f.readline()
+            if line == "":
+                break
+            if line[:6] == area_code:
+                ret["area"] = line.split()[1]
+                break
+        return ret["area"]
+
+def map_parse(num):
+    data = [('成都市', num[0]),('自贡市', num[1]),('攀枝花市', num[2]),('泸州市', num[3]),('德阳市', num[4]),
+        ('绵阳市', num[5]),('广元市', num[6]),('遂宁市', num[7]),('内江市', num[8]),('乐山市', num[9]),('南充市', num[10]),
+        ('宜宾市', num[11]),('广安市', num[12]),('达州市', num[13]),('雅安市', num[14]),("眉山市",num[15]),
+        ("阿坝藏族羌族自治州",num[16]),("甘孜藏族自治州",num[17]),("凉山彝族自治州",num[18]),("巴中市",num[19]),("资阳市",num[20])]
+
+    c = (
+        Map()
+        .add(series_name="学生数量分布", data_pair=data, maptype="四川",zoom = 1)
+        .set_global_opts(
+          title_opts=opts.TitleOpts(title="地图"),
+          visualmap_opts=opts.VisualMapOpts(max_=9999,is_piecewise=True,
+                  pieces=[{"max": 999, "min": 0, "label": "0-999","color":"#FF7F50"},
+                      {"max": 1999, "min": 1000, "label": "1000-1999","color":"#F08080"},
+                      {"max": 2999, "min": 2000, "label": "2000-2999","color":"#CD5C5C"},
+                      {"max": 10000, "min": 3000, "label": ">=3000", "color":"#8B0000"}]
+                           )
+    )
+    )
+
+    c.render()
+    
+f = open('1.txt')
+num =list()
+num = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+for id_ in f.readlines():
+    id_ = list(id_)
+    id_.pop(-1)
+    id_ = "".join(id_)
+    area = str(get_area(str(id_)))
+    #地域分布数据
+    if re.search("四川省成都",area) != None:
+        num[0] += 1
+    if re.search("四川省自贡",area) != None:
+        num[1] += 1
+    if re.search("四川省攀枝花",area) != None:
+        num[2] += 1
+    if re.search("四川省泸州",area) != None:
+        num[3] += 1
+    if re.search("四川省德阳",area) != None:
+        num[4] += 1
+    if re.search("四川省绵阳",area) != None:
+        num[5] += 1
+    if re.search("四川省广元",area) != None:
+        num[6] += 1
+    if re.search("四川省遂宁",area) != None:
+        num[7] += 1
+    if re.search("四川省内江",area) != None:
+        num[8] += 1
+    if re.search("四川省乐山",area) != None:
+        num[9] += 1
+    if re.search("四川省南充",area) != None:
+        num[10] += 1
+    if re.search("四川省宜宾",area) != None:
+        num[11] += 1
+    if re.search("四川省广安",area) != None:
+        num[12] += 1
+    if re.search("四川省达川",area) != None:
+        num[13] += 1
+    if re.search("四川省雅安",area) != None:
+        num[14] += 1
+    if re.search("四川省眉山",area) != None:
+        num[15] += 1
+    if re.search("四川省阿坝藏族羌族自治州",area) != None:
+        num[16] += 1
+    if re.search("四川省甘孜藏族自治州",area) != None:
+        num[17] += 1
+    if re.search("四川省凉山彝族自治州",area) != None:
+        num[18] += 1
+    if re.search("四川省巴中",area) != None:
+        num[19] += 1
+    if re.search("四川省眉山地区资阳",area) != None:
+        num[20] += 1
+        
+map_parse(num)           
+f.close()
+
+
