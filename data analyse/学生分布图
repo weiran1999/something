@@ -55,7 +55,7 @@ def map_parse(num):
         .set_global_opts(
           title_opts=opts.TitleOpts(title="地图"),
           visualmap_opts=opts.VisualMapOpts(max_=9999,is_piecewise=True,
-                  pieces=[{"max": 90, "min": 0, "label": "0-90","color":"#FFE4E1"},
+                  pieces=[{"max": 90, "min": 0, "label": "0-99","color":"#FFE4E1"},
                       {"max": 999, "min": 100, "label": "100-999","color":"#FF7F50"},
                       {"max": 4999, "min": 1000, "label": "1000-4999","color":"#F08080"},
                       {"max": 9999, "min": 5000, "label": "5000-9999","color":"#CD5C5C"},
