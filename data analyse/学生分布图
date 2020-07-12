@@ -1,0 +1,149 @@
+import re
+import requests
+from pyecharts import options as opts
+from pyecharts.charts import Map
+
+def get_area(id_):
+    cardno = id_
+    # 调用本地函数实现
+    r = get_idcard_info(cardno)
+    return r
+
+def get_idcard_info(cardno):
+    ret = {"err": 1, "area": "", "birthday": "", "sex": ""}
+    # 初级校验
+    cardno = cardno.upper()
+    if re.fullmatch("[1-6]\\d{16}[\\d|X]", cardno) == None:
+        return None
+    # 利用身份证号最末尾的校验码进一步校验
+    code = (7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2)
+    i, s = 0, 0
+    while i < 17:
+        s += int(cardno[i]) * code[i]
+        i += 1  
+    s = (12 - (s % 11)) % 11
+    if s == 10:
+        s = "X"
+    else:
+        s = str(s)
+    if s != cardno[17]:
+        return ret
+    
+    # 提取身份证号中的信息
+    area_code = cardno[:6]
+    with open("idcard_addr_code.txt", "r", encoding="utf-8") as f:
+        while True:
+            line = f.readline()
+            if line == "":
+                break
+            if line[:6] == area_code:
+                ret["area"] = line.split()[1]
+                break
+        return ret["area"]
+
+def map_parse(num):
+    data = [('湖北', num[0]),('浙江', num[1]),('广东', num[2]),('河南', num[3]),('湖南', num[4]),
+    ('安徽', num[5]),('江西', num[6]),('重庆', num[7]),('江苏', num[8]),('四川', num[9]),
+    ('山东', num[10]),('北京', num[11]),('上海', num[12]),('福建', num[13]),('陕西', num[14]),
+    ('广西', num[15]),('云南', num[16]),('河北', num[17]),('黑龙江', num[18]),('辽宁', num[19]),
+    ('海南', num[20]),('新疆', num[21]),('内蒙古', num[22]),('宁夏', num[23]),('青海', num[24]),('甘肃', num[25]),('西藏', num[26]),
+    ('贵州', num[27]),('山西', num[28]),('吉林', num[29]),('台湾', num[30]),('天津', num[31]),('香港', num[32]),('澳门', num[33])]
+
+    c = (
+        Map()
+        .add(series_name="学生数量分布", data_pair=data, maptype="china",zoom = 1,center=[105,38])
+        .set_global_opts(
+          title_opts=opts.TitleOpts(title="地图"),
+          visualmap_opts=opts.VisualMapOpts(max_=9999,is_piecewise=True,
+                  pieces=[{"max": 90, "min": 0, "label": "0-90","color":"#FFE4E1"},
+                      {"max": 999, "min": 100, "label": "100-999","color":"#FF7F50"},
+                      {"max": 4999, "min": 1000, "label": "1000-4999","color":"#F08080"},
+                      {"max": 9999, "min": 5000, "label": "5000-9999","color":"#CD5C5C"},
+                      {"max": 99999, "min": 10000, "label": ">=10000", "color":"#8B0000"}]
+                           )
+    )
+    )
+
+    c.render()
+    
+f = open('1.txt')
+num =list()
+num = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+for id_ in f.readlines():
+    id_ = list(id_)
+    id_.pop(-1)
+    id_ = "".join(id_)
+    area = str(get_area(str(id_)))
+    #地域分布数据
+    if re.match("湖北",area) != None:
+        num[0] += 1
+    if re.match("浙江",area) != None:
+        num[1] += 1
+    if re.match("广东",area) != None:
+        num[2] += 1
+    if re.match("河南",area) != None:
+        num[3] += 1
+    if re.match("湖南",area) != None:
+        num[4] += 1
+    if re.match("安徽",area) != None:
+        num[5] += 1
+    if re.match("江西",area) != None:
+        num[6] += 1
+    if re.match("重庆",area) != None:
+        num[7] += 1
+    if re.match("江苏",area) != None:
+        num[8] += 1
+    if re.match("四川",area) != None:
+        num[9] += 1
+    if re.match("山东",area) != None:
+        num[10] += 1
+    if re.match("北京",area) != None:
+        num[11] += 1
+    if re.match("上海",area) != None:
+        num[12] += 1
+    if re.match("福建",area) != None:
+        num[13] += 1
+    if re.match("陕西",area) != None:
+        num[14] += 1
+    if re.match("广西",area) != None:
+        num[15] += 1
+    if re.match("云南",area) != None:
+        num[16] += 1
+    if re.match("河北",area) != None:
+        num[17] += 1
+    if re.match("黑龙江",area) != None:
+        num[18] += 1
+    if re.match("辽宁",area) != None:
+        num[19] += 1
+    if re.match("海南",area) != None:
+        num[20] += 1
+    if re.match("新疆",area) != None:
+        num[21] += 1
+    if re.match("内蒙古",area) != None:
+        num[22] += 1
+    if re.match("宁夏",area) != None:
+        num[23] += 1
+    if re.match("青海",area) != None:
+        num[24] += 1
+    if re.match("甘肃",area) != None:
+        num[25] += 1
+    if re.match("西藏",area) != None:
+        num[26] += 1
+    if re.match("贵州",area) != None:
+        num[27] += 1
+    if re.match("山西",area) != None:
+        num[28] += 1
+    if re.match("吉林",area) != None:
+        num[29] += 1
+    if re.match("台湾",area) != None:
+        num[30] += 1
+    if re.match("天津",area) != None:
+        num[31] += 1
+    if re.match("香港",area) != None:
+        num[32] += 1
+    if re.match("澳门",area) != None:
+        num[33] += 1
+        
+map_parse(num)           
+f.close()
+
