@@ -1,0 +1,22 @@
+def main():
+    price = [3,2,1,2,3,10,10] #7天里可乐的价格
+    N = len(price) #总共7天，一天一瓶可乐
+    M = 3 #可乐只能放3天
+    price_other = price.copy()
+    ans = price.copy() #需要三个以价格为元素的列表
+    output = 0 
+    for i in range(len(price)): #遍历价格列表的长度次数
+        days = min(N - i, M) #days参数为从当天起最多能买几瓶可乐
+        price[i] = ans[i] #每次遍历后
+        for j in range(days):
+            ans[i+j] = min(ans[i+j],price_other[i]) #我在这里去更换ans列表中，以i到days为下标的元素，类似滑动窗口思想
+        print(ans[i:i + days]) #可以查看每一次的滑动窗口里面的值
+        print('第{0}天的花费是{1}'.format(i,price[i]))  #可以查看每一次滑动窗口里选择的值
+        output += int(price[i])  #累加
+    print("总共花费{0}".format(output))
+ 
+if __name__ == "__main__":
+    main()
+
+#题网址： https://blog.csdn.net/sinat_38332832/article/details/109554173
+
