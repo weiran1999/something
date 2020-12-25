@@ -1,0 +1,35 @@
+# 检查学生提交文件中哪些学生没有交
+ 
+import os
+class SearchFile(object):
+    def __init__(self):
+        self.absent_list = set()
+        
+    def findfile(self,keyword,root):
+        filelist = []
+        count = 1
+        for root,dirs,files in os.walk(root):
+            for check in files:
+                if keyword in check: #文件夹文件命名必须包含listname里面的名字，不能错位
+                    break
+                else:
+                    count += 1
+                    if count >len(files):
+                        self.absent_list.add(keyword)
+                        
+    def __call__(self):
+        root = r"/Users/shanshan/Downloads/考核表" #输入文件夹地址
+        listName= ["孙伟然","曹文龙","马海健康","杨傲杰","程鸿鹰","覃佳","罗涵","宋前侗","田仁宝","刘宇","卢凤谊","秦伟豪","张信洲","郑天津","张源","陈玮","李俊佟","刘倾源","董宏君","苌哲旭","刘明","王凯","尚宇"]
+        print('总共{0}人'.format(len(listName)))
+        for name in listName:
+            self.findfile(name,root)    # 查找带指定字符的文件
+        
+        absent_list = list(self.absent_list) #集合不能直接用下标访问，需要转换成列表
+        for i in range(len(absent_list)):            
+            print(absent_list[i] + "  没交")
+        print("有{0}人没交".format(len(absent_list)))
+
+if __name__ == '__main__':
+    search = SearchFile()
+    search()
+
